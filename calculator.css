@@ -1,0 +1,705 @@
+/* Calculator Light Mode */
+
+body {
+  background: #f3f3f3;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Wrapper */
+.calc-wrapper {
+  background: #faf5f5;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  min-width: 320px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 100vh;
+  align-items: stretch;
+}
+.calc-height{
+  height: 76vh;
+}
+.calc-main {
+  background: #ffffff;
+  min-width: 320px;
+}
+
+/* Title Bar */
+.title-bar .hamburger,
+.title-bar .keep-on-top {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.title-bar .hamburger:hover,
+.title-bar .keep-on-top:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.title-bar .mode-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Display */
+.display-expression {
+  font-size: 13px;
+  color: #888;
+  min-height: 20px;
+  word-break: break-all;
+}
+
+.display-value {
+  font-size: 48px;
+  font-weight: 300;
+  color: #111;
+  line-height: 1.1;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.display-value.small-text {
+  font-size: 28px;
+}
+.display-value.xsmall-text {
+  font-size: 20px;
+}
+
+/* Scientific Control Buttons */
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ctrl-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+/* Memory Buttons */
+.mem-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 13px;
+  padding: 5px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.mem-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+.mem-btn:disabled {
+  color: #bbb;
+  cursor: default;
+}
+
+/* Scientific Extra Row Buttons */
+.extra-btn {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.extra-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+.extra-btn .arrow {
+  font-size: 10px;
+}
+
+/* Button Grid */
+.btn-grid {
+  display: grid;
+  gap: 2.5px;
+  padding: 4px 4px 8px;
+  flex: 1;
+}
+
+.btn-grid > button {
+  box-shadow: rgba(179, 178, 178, 0.18) 0px 2px 4px;
+}
+
+.btn-grid.standard-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+.btn-grid.scientific-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* Calculator Buttons */
+.calc-btn {
+  background: #f3f2f2;
+  border: 1px solid #e0e0e0;
+  color: #111;
+  font-size: 16px;
+  padding: 14px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+  line-height: 1;
+}
+
+.calc-btn:hover {
+  background: #e9e9e9;
+}
+.calc-btn:active {
+  background: #dcdcdc;
+}
+
+.calc-btn.btn-equals {
+  background: #4a6fa5;
+  color: #fff;
+  border: none;
+}
+
+.calc-btn.btn-equals:hover {
+  background: #5a7fb5;
+}
+.calc-btn.btn-equals:active {
+  background: #3a5f95;
+}
+
+.calc-btn.btn-func {
+  background: #f3f2f2;
+  font-size: 13px;
+  color: #444;
+}
+
+.calc-btn.btn-func:hover {
+  background: #eeeeee;
+}
+
+.calc-btn sup,
+.calc-btn sub {
+  font-size: 9px;
+}
+
+.btn-base {
+  background: #ffffff;
+}
+
+.btn-fade {
+  background: #f3f2f2;
+}
+
+.btn-second-active {
+  background: #4a6fa5 !important;
+  color: #fff !important;
+  border: none;
+}
+.btn-second-active:hover {
+  background: #5a7fb5 !important;
+}
+
+/*  History Panel  */
+.history-panel {
+  width: 260px;
+  background: #ffffff;
+  border-left: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 85vh;
+}
+
+.history-tabs {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.history-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #777;
+  padding: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+}
+
+.history-tab.active {
+  color: #111;
+}
+
+.history-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: #4a6fa5;
+}
+
+.history-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  flex: 1;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.history-empty {
+  color: #aaa;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.history-item {
+  text-align: right;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.history-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.history-item .hist-expr {
+  color: #888;
+  font-size: 12px;
+}
+.history-item .hist-result {
+  color: #111;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* ── Dropdown Menus ── */
+.mode-menu,
+.func-dropdown {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  min-width: 200px;
+  padding: 6px 0;
+  display: none;
+}
+
+.mode-menu.show,
+.func-dropdown.show {
+  display: block;
+}
+
+.mode-menu-section {
+  padding: 6px 16px 2px;
+  color: #888;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mode-menu-item,
+.func-dropdown-item {
+  padding: 8px 14px;
+  color: #444;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mode-menu-item:hover,
+.func-dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.mode-menu-item.active,
+.func-dropdown-item.selected {
+  color: #4a6fa5;
+  font-weight: 600;
+}
+
+/* ── Responsive: hide history panel below 700px ── */
+.history-panel-hidden {
+  display: none !important;
+}
+
+/* ── Mobile History Toggle Button ── */
+.mobile-history-btn {
+  position: absolute;
+  top: 6px;
+  right: 46px;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: #eef2f8;
+  color: #4a6fa5;
+  border: 1px solid #d0daea;
+  font-size: 17px;
+  box-shadow: none;
+  cursor: pointer;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.mobile-history-btn:hover {
+  background: #dce6f5;
+  transform: none;
+}
+
+/* ── Bottom Sheet Backdrop ── */
+.bottom-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1055;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bottom-sheet-backdrop.show {
+  opacity: 1;
+}
+
+/* ── Bottom Sheet ── */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 16px 16px 0 0;
+  z-index: 1060;
+  height: 50vh;
+  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+  width: 44px;
+  height: 5px;
+  background: #ddd;
+  border-radius: 3px;
+  margin: 12px auto 0;
+  flex-shrink: 0;
+}
+
+.bottom-sheet-header {
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.bottom-sheet-header .history-tab {
+  flex: 1;
+  font-size: 16px;
+  padding: 14px;
+}
+
+.bottom-sheet-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  padding: 10px 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.bottom-sheet-close:hover {
+  color: #111;
+}
+
+.bottom-sheet .history-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bottom-sheet .history-empty {
+  font-size: 16px;
+}
+
+.bottom-sheet .hist-expr {
+  font-size: 14px !important;
+}
+
+.bottom-sheet .hist-result {
+  font-size: 22px !important;
+}
+
+/* ── Thin Scrollbar ── */
+.history-content::-webkit-scrollbar,
+.bottom-sheet .history-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.history-content::-webkit-scrollbar-track,
+.bottom-sheet .history-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.history-content::-webkit-scrollbar-thumb,
+.bottom-sheet .history-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 999px;
+}
+
+.history-content::-webkit-scrollbar-thumb:hover,
+.bottom-sheet .history-content::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.history-content {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+/* ══════════════════════════════
+   DARK MODE  (body.dark)
+══════════════════════════════ */
+body.dark {
+  background: #1a1a1a;
+}
+
+body.dark .calc-wrapper {
+  background: #1e1e1e;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .calc-main {
+  background: #1e1e1e;
+}
+
+/* Title bar */
+body.dark .title-bar .hamburger,
+body.dark .title-bar .keep-on-top {
+  color: #aaa;
+}
+
+body.dark .title-bar .hamburger:hover,
+body.dark .title-bar .keep-on-top:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .title-bar .mode-title {
+  color: #eee;
+}
+
+/* Display */
+body.dark .display-expression {
+  color: #777;
+}
+
+body.dark .display-value {
+  color: #f0f0f0;
+}
+
+/* Ctrl / Mem / Extra buttons */
+body.dark .ctrl-btn,
+body.dark .mem-btn,
+body.dark .extra-btn {
+  color: #aaa;
+}
+
+body.dark .ctrl-btn:hover,
+body.dark .mem-btn:hover,
+body.dark .extra-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+body.dark .mem-btn:disabled {
+  color: #555;
+}
+
+/* Calc buttons */
+body.dark .calc-btn {
+  background: #2a2a2a;
+  border-color: #333;
+  color: #e8e8e8;
+}
+
+body.dark .calc-btn:hover {
+  background: #333;
+}
+body.dark .calc-btn:active {
+  background: #3a3a3a;
+}
+
+body.dark .calc-btn.btn-func {
+  background: #252525;
+  color: #bbb;
+}
+
+body.dark .calc-btn.btn-func:hover {
+  background: #303030;
+}
+
+body.dark .btn-base {
+  background: #2e2e2e;
+}
+body.dark .btn-fade {
+  background: #252525;
+}
+
+body.dark .calc-btn.btn-equals {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+body.dark .calc-btn.btn-equals:hover {
+  background: #5a7fb5;
+}
+body.dark .calc-btn.btn-equals:active {
+  background: #3a5f95;
+}
+
+/* History panel */
+body.dark .history-panel {
+  background: #1e1e1e;
+  border-left-color: #333;
+}
+
+body.dark .history-tabs {
+  border-bottom-color: #333;
+}
+
+body.dark .history-tab {
+  color: #666;
+}
+body.dark .history-tab.active {
+  color: #eee;
+}
+
+body.dark .history-item {
+  border-bottom-color: #2a2a2a;
+}
+
+body.dark .history-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark .history-item .hist-expr {
+  color: #666;
+}
+body.dark .history-item .hist-result {
+  color: #ddd;
+}
+body.dark .history-empty {
+  color: #555;
+}
+
+/* Dropdowns */
+body.dark .mode-menu,
+body.dark .func-dropdown {
+  background: #2a2a2a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .mode-menu-section {
+  color: #666;
+}
+
+body.dark .mode-menu-item,
+body.dark .func-dropdown-item {
+  color: #bbb;
+}
+
+body.dark .mode-menu-item:hover,
+body.dark .func-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark .mode-menu-item.active,
+body.dark .func-dropdown-item.selected {
+  color: #7aaff5;
+}
+
+/* Mobile toggle button */
+body.dark .mobile-history-btn {
+  background: #2a2e38;
+  color: #7aaff5;
+  border-color: #3a4050;
+}
+
+body.dark .mobile-history-btn:hover {
+  background: #333a48;
+}
+
+/* Bottom sheet */
+body.dark .bottom-sheet {
+  background: #1e1e1e;
+}
+
+body.dark .bottom-sheet-handle {
+  background: #444;
+}
+
+body.dark .bottom-sheet-header {
+  border-bottom-color: #333;
+}
+
+body.dark .bottom-sheet-header .history-tab {
+  color: #666;
+}
+body.dark .bottom-sheet-header .history-tab.active {
+  color: #eee;
+}
+
+body.dark .bottom-sheet-close {
+  color: #666;
+}
+body.dark .bottom-sheet-close:hover {
+  color: #eee;
+}
+
+/* Scrollbar thumb in dark */
+body.dark .history-content::-webkit-scrollbar-thumb,
+body.dark .bottom-sheet .history-content::-webkit-scrollbar-thumb {
+  background: #444;
+}
+
+body.dark .history-content::-webkit-scrollbar-thumb:hover,
+body.dark .bottom-sheet .history-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body.dark .history-content {
+  scrollbar-color: #444 transparent;
+}

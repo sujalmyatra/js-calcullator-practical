@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Calculator</title>
+    <link rel="icon" href="./icon/calculator.svg" type="image/svg+xml">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100">
+
+<div class="calc-wrapper d-flex position-relative" id="calcWrapper">
+    <!-- MODE MENU -->
+    <div class="mode-menu" id="modeMenu">
+        <div class="mode-menu-section">Calculator</div>
+        <div class="mode-menu-item" data-mode="standard">
+            <span class="check" id="checkStandard">✓</span> Standard
+        </div>
+        <div class="mode-menu-item" data-mode="scientific">
+            <span class="check" id="checkScientific" style="visibility:hidden">✓</span> Scientific
+        </div>
+    </div>
+
+    <!-- MAIN PANEL  -->
+    <div class="calc-main d-flex flex-column flex-grow-1" id="calcMain">
+
+        <!-- Title Bar -->
+        <div class="title-bar d-flex align-items-center gap-2 px-3 pt-2 pb-1">
+            <button class="hamburger" id="hamburgerBtn"><i class="bi bi-list"></i></button>
+            <span class="mode-title flex-grow-1" id="modeTitle">Standard</span>
+            <button class="keep-on-top" id="keepOnTopBtn" title="Toggle dark mode"><i class="bi bi-moon" id="themeIcon"></i></button>
+        </div>
+
+        <!-- Display -->
+        <div class="display-area px-3 py-2 text-end">
+            <div class="display-expression" id="displayExpression"></div>
+            <div class="display-value" id="displayValue">0</div>
+        </div>
+
+        <!-- Scientific Controls  -->
+        <div class="controls-row d-none align-items-center px-2 gap-2" id="scientificControls">
+            <button class="ctrl-btn" id="degBtn" data-angle="DEG">DEG</button>
+            <button class="ctrl-btn" id="feBtn">F-E</button>
+        </div>
+
+        <!-- Memory Row -->
+        <div class="memory-row d-flex align-items-center px-2 py-1 gap-1" id="memoryRow">
+            <button class="mem-btn flex-fill" id="mcBtn" >MC</button>
+            <button class="mem-btn flex-fill" id="mrBtn" >MR</button>
+            <button class="mem-btn flex-fill" id="mpBtn">M+</button>
+            <button class="mem-btn flex-fill" id="mmBtn">M−</button>
+            <button class="mem-btn flex-fill" id="msBtn">MS</button>
+        </div>
+
+        <!-- Scientific Extra Row -->
+        <div class="extra-row d-none align-items-center px-2 py-1 gap-2" id="scientificExtra">
+            <div class="position-relative">
+                <button class="extra-btn" id="trigBtn">
+                    <span>&#9651;</span> Trigonometry <span class="arrow">&#8964;</span>
+                </button>
+                <div class="func-dropdown" id="trigDropdown" >
+                    <div class="func-dropdown-item selected" data-trig="sin">sin</div>
+                    <div class="func-dropdown-item" data-trig="cos">cos</div>
+                    <div class="func-dropdown-item" data-trig="tan">tan</div>
+                    <div class="func-dropdown-item" data-trig="sin⁻¹">sin⁻¹</div>
+                    <div class="func-dropdown-item" data-trig="cos⁻¹">cos⁻¹</div>
+                    <div class="func-dropdown-item" data-trig="tan⁻¹">tan⁻¹</div>
+                    <div class="func-dropdown-item" data-trig="sinh">sinh</div>
+                    <div class="func-dropdown-item" data-trig="cosh">cosh</div>
+                    <div class="func-dropdown-item" data-trig="tanh">tanh</div>
+                </div>
+            </div>
+            <div class="position-relative">
+                <button class="extra-btn" id="funcBtn">
+                    <span style="font-style:italic">f</span> Function <span class="arrow">&#8964;</span>
+                </button>
+                <div class="func-dropdown" id="funcDropdown">
+                    <div class="func-dropdown-item selected" data-func="floor">floor</div>
+                    <div class="func-dropdown-item" data-func="ceil">ceil</div>
+                    <div class="func-dropdown-item" data-func="rand">rand</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button Grid -->
+        <div class="btn-grid" id="btnGrid"></div>
+
+    </div><!-- /calc-main -->
+
+    <!-- HISTORY PANEL (desktop) -->
+    <div class="history-panel d-flex flex-column" id="historyPanel">
+        <div class="history-tabs d-flex">
+            <button class="history-tab active" id="histTab" data-tab="history">History</button>
+            <button class="history-tab"        id="memTab"  data-tab="memory">Memory</button>
+        </div>
+        <div class="history-content" id="historyContent">
+            <div class="history-empty" id="historyEmpty">There's no history yet.</div>
+        </div>
+    </div>
+
+    <!-- Mobile: History/Memory Toggle Button (inside calc-wrapper for position:absolute anchoring) -->
+    <button class="mobile-history-btn d-none" id="mobileHistoryBtn" title="History &amp; Memory">
+        <i class="bi bi-clock-history"></i>
+    </button>
+
+</div>
+
+<!-- Mobile: Bottom Sheet Backdrop -->
+<div class="bottom-sheet-backdrop d-none" id="bottomSheetBackdrop"></div>
+
+<!-- Mobile: Bottom Sheet -->
+<div class="bottom-sheet" id="bottomSheet">
+    <div class="bottom-sheet-handle"></div>
+    <div class="bottom-sheet-header d-flex">
+        <button class="history-tab active" id="mobileHistTab" data-tab="history">History</button>
+        <button class="history-tab"        id="mobileMemTab"  data-tab="memory">Memory</button>
+        <button class="bottom-sheet-close" id="bottomSheetClose"><i class="bi bi-x"></i></button>
+    </div>
+    <div class="history-content" id="mobileHistoryContent">
+        <div class="history-empty">There's no history yet.</div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="module" src="calculator.js" defer></script>
+
+
+</body>
+</html>
