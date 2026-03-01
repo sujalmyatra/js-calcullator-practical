@@ -176,43 +176,90 @@ export function renderHistoryPanel() {
     }
 }
 
-// CALCULATION LOGIC
 export function calculate(first, operator, second) {
 
     first  = parseFloat(first);
     second = parseFloat(second);
 
-    // BASIC OPERATIONS → handled by prototype
+    if (isNaN(first) || isNaN(second)) {
+        return NaN;
+    }
+
     if (['add','subtract','multiply','divide'].includes(operator)) {
+
+        if (operator === 'divide') {
+            if (second === 0) return NaN;
+            return first / second;
+        }
+
         return calc.calculateBinary(first, operator, second);
     }
 
     switch (operator) {
+
         case 'power':
+            if (first === 0 && second <= 0) return NaN;
             return Math.pow(first, second);
 
         case 'nthRoot':
+            if (first === 0) return NaN;
+            if (second < 0 && first % 2 === 0) return NaN;
             return Math.pow(second, 1 / first);
 
         case 'logY':
+            if (
+                first <= 0 ||
+                first === 1 ||
+                second <= 0
+            ) {
+                return NaN;
+            }
+
             return Math.log(second) / Math.log(first);
 
         case 'mod':
+            if (second === 0) return NaN;
             return first % second;
 
+        case 'EXP_OP':
+            return first * Math.pow(10, second);
+
         default:
-            return second;
+            return NaN;
     }
 }
 
 // FORMATTER
 export function formatResult(num) {
+
     if (typeof num === 'string') return num;
-    if (!isFinite(num)) return isNaN(num) ? 'Error' : (num > 0 ? 'Infinity' : '-Infinity');
+
+    if (isNaN(num)) return 'Error';
+
+    if (!isFinite(num)) {
+        return 'Cannot divide by zero';
+    }
+
     const str    = num.toPrecision(15);
     const parsed = parseFloat(str);
+
     if (Math.abs(parsed) > 1e15 || (Math.abs(parsed) < 1e-9 && parsed !== 0)) {
         return parsed.toExponential();
     }
+
     return String(parsed);
+}
+
+export function resetCalculatorState() {
+    calc.display = '0';
+    calc.expression = '';
+    calc.firstOperand = null;
+    calc.operator = null;
+    calc.lastOperator = null;
+    calc.lastSecondOperand = null;
+    calc.waitingForSecond = false;
+    calc.shouldReset = false;
+    calc.parenCount = 0;
+
+    updateDisplay();
 }

@@ -1,36 +1,48 @@
 import { calc } from './controllers/Calculator.js';
-import { renderButtons,renderHistoryPanel, addToHistory, updateDisplay } from './controllers/utilities.js';
+import { renderButtons,renderHistoryPanel, addToHistory, updateDisplay, resetCalculatorState    } from './controllers/utilities.js';
 import { handleButtonClick } from './controllers/buttonHandler.js';
 import { handleTrig } from './controllers/sciHandler.js';
 
 // Mode Switch
 function switchMode(mode) {
+
     calc.mode = mode;
-    
-    document.getElementById('modeTitle').textContent      = mode === 'standard' ? 'Standard' : 'Scientific';
-    // document.getElementById('keepOnTopBtn').style.display = mode === 'standard' ? 'block' : 'none';
+
+    resetCalculatorState();
+
+    document.getElementById('modeTitle').textContent =
+        mode === 'standard' ? 'Standard' : 'Scientific';
 
     const sciControls = document.getElementById('scientificControls');
     const sciExtra    = document.getElementById('scientificExtra');
     const calcWrapper = document.getElementById('calcWrapper');
 
     if (mode === 'scientific') {
-        sciControls.classList.remove('d-none'); sciControls.classList.add('d-flex');
-        sciExtra.classList.remove('d-none');    sciExtra.classList.add('d-flex');
-        calcWrapper.style.height='76vh';
+        sciControls.classList.remove('d-none');
+        sciControls.classList.add('d-flex');
 
+        sciExtra.classList.remove('d-none');
+        sciExtra.classList.add('d-flex');
+
+        calcWrapper.style.height = '76vh';
 
     } else {
-        sciControls.classList.add('d-none'); sciControls.classList.remove('d-flex');
-        sciExtra.classList.add('d-none');    sciExtra.classList.remove('d-flex');
-        calcWrapper.style.height='';
+        sciControls.classList.add('d-none');
+        sciControls.classList.remove('d-flex');
 
+        sciExtra.classList.add('d-none');
+        sciExtra.classList.remove('d-flex');
+
+        calcWrapper.style.height = '';
     }
 
-    document.getElementById('checkStandard').style.visibility  = mode === 'standard'   ? 'visible' : 'hidden';
-    document.getElementById('checkScientific').style.visibility = mode === 'scientific' ? 'visible' : 'hidden';
-        calcWrapper.classList.remove('calc-height');
+    document.getElementById('checkStandard').style.visibility =
+        mode === 'standard' ? 'visible' : 'hidden';
 
+    document.getElementById('checkScientific').style.visibility =
+        mode === 'scientific' ? 'visible' : 'hidden';
+
+    calcWrapper.classList.remove('calc-height');
 
     renderButtons();
     closeModeMenu();
